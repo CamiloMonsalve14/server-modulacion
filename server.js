@@ -8,6 +8,10 @@ app.use(express.json())
 
 app.use("/contactos", contactoRouter)
 
+app.get("/", (req, res) => {
+    res.send("Ruta raiz")
+})
+
 app.listen (port, () => {
     console.log(`servidor corriendo en el puerto ${port}`)
 })

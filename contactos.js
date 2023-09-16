@@ -3,25 +3,30 @@ const express = require("express");
 const contactoRouter = express.Router();
 const contactos = require("./listaContactos")
 
-contactoRouter.get ("/", (req, res)=> {
+contactoRouter
+.get ("/", (req, res)=> {
     res.json(contactos.imprimirContactos())
 })
-
-contactoRouter.get ("/:id", (req, res) => {
+    .get ("/:id", (req, res) => {
     const id = parseInt(req.params.id);
     res.json(contactos.buscarContacto(id))
 })
-
-contactoRouter.post("/", (req, res) => {
+    .post("/", (req, res) => {
     contactos.agregarContacto(req.body)
     res.json({
         status: 200,
         menssage: "cotacto creado",
         data: req.body
     })
-})
-
-contactoRouter.delete("/:id",(req, res) => {
+}).put("/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    contactos.actualizarContacto(id, req.body)
+    res.json({
+        status: 200,
+        message: `Contacto editado con id ${req.params.id} fue editado exitosamente`,
+        // data: req.body
+    })
+}).delete("/:id",(req, res) => {
     const id = parseInt(req.params.id)
     res.json ({
         status: 200,
@@ -29,5 +34,9 @@ contactoRouter.delete("/:id",(req, res) => {
         data: req.body
     })
     contactos.borrarContacto(id)
-} )
+})
+
+
+
+
 module.exports = contactoRouter;
